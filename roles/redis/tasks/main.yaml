@@ -66,12 +66,12 @@
     name: redis
     state: present
 
-- name: allow remote connections
+- name: Allow remote connections
   ansible.builtin.replace:
-    path: /etc/redis/redis.conf
+    path: /etc/redis.conf       # ✅ Correct path for CentOS 8
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
-    
+
 - name: Ensure Redis is started and enabled
   ansible.builtin.service:
     name: redis
