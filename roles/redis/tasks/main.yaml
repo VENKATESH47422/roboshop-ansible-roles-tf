@@ -26,18 +26,42 @@
 
 #     99999999999999999999999999
 
-- name: Install Remi release RPM for CentOS 8
+# - name: Install Remi release RPM for CentOS 8
+#   ansible.builtin.dnf:
+#     name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+#     state: present
+#     disable_gpg_check: true
+
+# - name: Enable Redis 6.2 module from Remi
+#   ansible.builtin.command: dnf module enable redis:remi-6.2 -y
+#   args:
+#     creates: /etc/dnf/modules.d/redis.module
+
+# - name: Install Redis
+#   ansible.builtin.dnf:
+#     name: redis
+#     state: present
+
+# - name: allow remote connections
+#   ansible.builtin.replace:
+#     path: /etc/redis/redis.conf
+#     regexp: '127.0.0.1'
+#     replace: '0.0.0.0'
+    
+# - name: Ensure Redis is started and enabled
+#   ansible.builtin.service:
+#     name: redis
+#     state: started
+#     enabled: yes
+
+#     9999999999999999999999
+
+- name: Install EPEL repository (if needed)
   ansible.builtin.dnf:
-    name: https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+    name: epel-release
     state: present
-    disable_gpg_check: true
 
-- name: Enable Redis 6.2 module from Remi
-  ansible.builtin.command: dnf module enable redis:remi-6.2 -y
-  args:
-    creates: /etc/dnf/modules.d/redis.module
-
-- name: Install Redis
+- name: Install Redis from CentOS AppStream
   ansible.builtin.dnf:
     name: redis
     state: present
